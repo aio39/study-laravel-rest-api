@@ -23,7 +23,8 @@ class PostsController extends Controller
 
 
     public function store(Request $request){
-
+// https://laravel.kr/docs/8.x/requests
+        $uri = $request->path(); 
         $title = $request->title;
         $content = $request->content;
 

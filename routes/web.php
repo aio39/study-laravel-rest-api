@@ -13,6 +13,13 @@ use App\Http\Controllers\PostsController;
 |
 */
 
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
 
 Route::get('/post', [PostsController::class, 'show']);
 Route::get('/post/create', [PostsController::class, 'create']);
@@ -23,3 +30,4 @@ Route::post('/post', [PostsController::class, 'store']);
 Route::put('/post/{post}', [PostsController::class, 'update']);
 Route::delete('/post/{post}', [PostsController::class, 'destroy']);
 
+require __DIR__.'/auth.php';
