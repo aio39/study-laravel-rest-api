@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostsController extends Controller
 {
@@ -16,19 +18,35 @@ class PostsController extends Controller
     public function show(){
         return view('posts.show');
     }
-    public function index($post){
-        
-        return view('posts.index', compact('post'));
+    public function index(){
+        // $posts = Post::orderBy('created_at','desc')->get();
+        $posts = Post::latest()->paginate(2);
+        // $posts = Post::latest()->get();
+        // return $posts;
+        return view('posts.index', compact('posts'));
     }
 
 
     public function store(Request $request){
-// https://laravel.kr/docs/8.x/requests
-        $uri = $request->path(); 
         $title = $request->title;
         $content = $request->content;
 
-        dd($request);
+        $request->validate([
+            'title'=>'required|min:3',
+            'content'=>'required|min:10'
+        ]);
+
+        // dd($request);
+        $post = new Post();
+        $post->title = $title;
+        $post->content = $content;
+        $post->user_id = Auth::user()->id;
+
+        $post->save();
+
+        return redirect(
+            $to = '/post/index',
+        );
     }
     public function update(){}
     public function destroy(){}

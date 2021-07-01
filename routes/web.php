@@ -24,7 +24,8 @@ Route::get('/dashboard', function () {
 Route::get('/post', [PostsController::class, 'show']);
 Route::get('/post/create', [PostsController::class, 'create']);
 Route::get('/post/edit', [PostsController::class, 'edit']);
-Route::get('/post/{post}', [PostsController::class, 'index']);
+// Route::get('/post/{post}', [PostsController::class, 'index']);
+Route::get('/post/index', [PostsController::class, 'index']);
 
 Route::post('/post', [PostsController::class, 'store']);
 Route::put('/post/{post}', [PostsController::class, 'update']);
