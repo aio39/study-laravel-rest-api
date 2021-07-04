@@ -79,7 +79,7 @@ return [
     | to any of the locales which will be supported by the application.
     |
     */
-
+    // NOTE 시간 타임 기본 언어 바꾸기 kr ja
     'locale' => 'en',
 
     /*

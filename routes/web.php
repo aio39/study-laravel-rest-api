@@ -21,14 +21,14 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-Route::get('/post', [PostsController::class, 'show']);
-Route::get('/post/create', [PostsController::class, 'create']);
-Route::get('/post/edit', [PostsController::class, 'edit']);
-// Route::get('/post/{post}', [PostsController::class, 'index']);
-Route::get('/post/index', [PostsController::class, 'index']);
+Route::get('/post/create', [PostsController::class, 'create'])->name(('posts.create'));
+Route::get('/post/edit', [PostsController::class, 'edit'])->name('posts.edit');
+Route::get('/post/index', [PostsController::class, 'index'])->name('posts.index');
+Route::get('/post/{id}', [PostsController::class, 'show'])->name('posts.show');
 
-Route::post('/post', [PostsController::class, 'store']);
-Route::put('/post/{post}', [PostsController::class, 'update']);
-Route::delete('/post/{post}', [PostsController::class, 'destroy']);
+// ->middleware(['auth']) , 생성자에서 적용
+Route::post('/post', [PostsController::class, 'store'])->name('posts.store');
+Route::put('/post/{post}', [PostsController::class, 'update'])->name('posts.update');
+Route::delete('/post/{post}', [PostsController::class, 'destroy'])->name('posts.destroy');
 
 require __DIR__.'/auth.php';

@@ -1,15 +1,33 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <style>
-            body {
-                font-family: 'Nunito', sans-serif;
-            }
-        </style>
-    </head>
-    <body class="antialiased">
-      <div>
-      <h1>Post Create</h1>
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+               {{ __('Post Create') }}
+           </h2>
+       </x-slot>
+      <div class="flex flex-col  mx-8">
+      <form method="POST" action="/post"  enctype="multipart/form-data" class="flex flex-col" >
+            @csrf
+            <label for="title">제목</label>
+            @error('title')
+            <div>{{$message}}</div>
+            @enderror
+            <input class="title" type="text" name="title" id="title" value="{{old('title')}}">
+            <label for="content">내용</label>
+            <textarea  class="content" name="content" id="content" cols="30" rows="10">
+                {{old('content')}}
+            </textarea>
+            @error('content')
+            <div class="text-red-600 justify-center align-middle">{{$message}}</div>
+            @enderror
+            <label for="imageFile"> 파일 </label>
+            <input type="file" name="imageFile" id="imageFile">
+            @error('imageFile')
+            <div class="text-red-600 justify-center align-middle">{{$message}}</div>
+            @enderror
+        <button type="submit" class="bg-red-500 ">제출!</button>
+      </form>
       </div>
     </body>
+
 </html>
+</x-app-layout>
