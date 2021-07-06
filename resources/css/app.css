@@ -1,3 +1,9 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+@layer components {
+    .btn {
+        @apply w-32 bg-green-300  p-1  text-base font-medium rounded-lg ring-2 ring-gray-900;
+    }
+}

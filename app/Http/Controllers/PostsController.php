@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 class PostsController extends Controller
 {
@@ -15,11 +16,35 @@ class PostsController extends Controller
         // 이 컨트롤러를 통하는 모든 경로에 미들웨어 적용
     }
     
+    protected function uploadPostImage($request){
+        $name = $request->file('imageFile')->getClientOriginalName();
+        // $name = 'imageFile.jpg';
+
+        $extension = $request->file('imageFile')->extension();
+        // $extension = 'jpg';
+
+        $nameWithoutExtension = Str::of($name)->basename('.'.$extension);
+        // $nameWithoutExtension = 'imageFile';
+
+        // dd($nameWithoutExtension);
+        // dd($name.'extension:'. $extension);
+        $fileName = $nameWithoutExtension . '_' . time() . '.' . $extension;
+        // $fileName = 'imageFile'.'_'.'1234567890'.'jpg';
+
+        $request->file('imageFile')->storeAs('public/images', $fileName);
+        // dd($fileName);
+        // $request->imageFile
+        // 그 파일 이름을
+        return $fileName;
+    }
+
     public function create(){
         return view('posts.create');
     }
-    public function edit(){
-        return view('posts.edit');
+    public function edit($id){
+        $post = Post::find($id);
+        
+        return view('posts.edit')->with('post', $post);
     }
     public function show(Request $request, $id){ //injection이 앞에와야함.
         $posts = Post::find($id);
@@ -60,26 +85,7 @@ class PostsController extends Controller
         // 내가 원하는 파일시스템 상의 위치에 원하는 이름으로
         // 파일을 저장하고
         if($request->file('imageFile')) {
-            $name = $request->file('imageFile')->getClientOriginalName();
-            // $name = 'imageFile.jpg';
-
-            $extension = $request->file('imageFile')->extension();
-            // $extension = 'jpg';
-
-            $nameWithoutExtension = Str::of($name)->basename('.'.$extension);
-            // $nameWithoutExtension = 'imageFile';
-
-            // dd($nameWithoutExtension);
-            // dd($name.'extension:'. $extension);
-            $fileName = $nameWithoutExtension . '_' . time() . '.' . $extension;
-            // $fileName = 'imageFile'.'_'.'1234567890'.'jpg';
-
-            $request->file('imageFile')->storeAs('public/images', $fileName);
-            // dd($fileName);
-            // $request->imageFile
-            // 그 파일 이름을
-            $post->image = $fileName;
-
+            $post->image = $this->uploadPostImage($request);
         }
         
 
@@ -91,6 +97,30 @@ class PostsController extends Controller
         // $posts = Post::latest()->paginate(5);
         // return view('posts.index',['posts' => $posts]);
     }
-    public function update(){}
-    public function destroy(){}
+    public function update(Request $request, $id){
+        $request->validate([
+            'title'=>'required|min:3',
+            'content'=>'required|min:10',
+            'imageFile'=>'image|max:2000'
+        ]);
+        
+        $title = $request->title;
+        $content = $request->content;
+        
+        $post = Post::find($id);
+
+        if($request->file('imageFile')){
+            $imagePath = 'public/images/'.$post->image;
+            Storage::delete($imagePath);
+            $post->image = $this->uploadPostImage($request);
+
+        }
+
+        $post->title = $title;
+        $post->content = $content;
+        $post->save();
+
+        return redirect()->route('posts.show',['id' => $id]);
+    }
+    public function destroy($id){}
 }
