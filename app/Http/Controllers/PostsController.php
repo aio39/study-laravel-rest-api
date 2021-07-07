@@ -122,5 +122,17 @@ class PostsController extends Controller
 
         return redirect()->route('posts.show',['id' => $id]);
     }
-    public function destroy($id){}
+    public function destroy(Request $request, $id){
+        $post = Post::findOrFail($id);
+        if($post->image){
+            $imagePath = 'public/images/'.$post->image;
+            Storage::delete($imagePath);
+        }
+        $post->delete();
+
+        $page = $request->query('page');
+
+        return redirect()->route('posts.index',['page' =>$page]);
+
+    }
 }

@@ -23,9 +23,15 @@
       >
       수정
       </button >
-      <button class="btn hover:bg-red-500" 
-            onClick="location.href='{{route('posts.destroy',['id'=>$posts->id])}}'">
-            삭제 </button>
+      
+            <form action="{{route('posts.destroy' ,['id'=>$posts->id ,'page'=>$page])}}" method="post">
+              @csrf
+              @method("delete")
+              <button class="btn hover:bg-red-500"  type="submit">
+              삭제
+            </button>
+            </form>
+
       <button class="btn focus:hover:bg-green-500"  
             onClick="location.href='{{route('posts.index',['page'=>$page])}}'"> 
             목록보기</button>
