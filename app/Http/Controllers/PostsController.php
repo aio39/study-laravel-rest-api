@@ -102,12 +102,17 @@ class PostsController extends Controller
             'title'=>'required|min:3',
             'content'=>'required|min:10',
             'imageFile'=>'image|max:2000'
-        ]);
-        
+    ]);
+
         $title = $request->title;
         $content = $request->content;
         
         $post = Post::find($id);
+
+        if($request->user()->cannot('update',$post)){
+            abort(403);
+        }
+
 
         if($request->file('imageFile')){
             $imagePath = 'public/images/'.$post->image;
@@ -124,6 +129,14 @@ class PostsController extends Controller
     }
     public function destroy(Request $request, $id){
         $post = Post::findOrFail($id);
+        // if(auth()->user()->id != $post->user_id){
+        //     abort(403);            
+        // }
+            if($request->user()->cannot('delete',$post)){
+                abort(403);
+            }
+
+
         if($post->image){
             $imagePath = 'public/images/'.$post->image;
             Storage::delete($imagePath);
