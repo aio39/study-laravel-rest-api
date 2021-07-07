@@ -41,10 +41,10 @@ class PostsController extends Controller
     public function create(){
         return view('posts.create');
     }
-    public function edit($id){
+    public function edit(Request $request,$id){
         $post = Post::find($id);
         
-        return view('posts.edit')->with('post', $post);
+        return view('posts.edit' ,['post' => $post , 'page'=>$request->page]);
     }
     public function show(Request $request, $id){ //injection이 앞에와야함.
         $posts = Post::find($id);
