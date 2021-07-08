@@ -26,7 +26,11 @@
                           </li>
                     @endforeach
                     </ul>
+                    <div class=" inset-x-0 bottom-0" >
+                        {{ $posts->links() }}
+                  </div>
             </div>
+          
         </div>
     </div>
 </x-app-layout>

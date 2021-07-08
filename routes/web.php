@@ -24,7 +24,8 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function (Request $request) {
 
-    $posts = $request->user()->posts;
+    // $posts = $request->user()->posts;
+    $posts = auth()->user()->posts()->latest()->paginate(5);
 
     return view('dashboard',compact('posts','request'));
 })->middleware(['auth'])->name('dashboard');

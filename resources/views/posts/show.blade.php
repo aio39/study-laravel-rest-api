@@ -15,7 +15,7 @@
     </div>
     <div class="mb-10">
       <img class="mb-4" src="{{$posts->imagePath()}}" alt="이미지">
-      <p class="font-normal">{{$posts->content}}</p>
+      <div class="font-normal">{!!  $posts->content !!}</div>
     </div>
     <div class="w-full flex justify-center">
       @auth

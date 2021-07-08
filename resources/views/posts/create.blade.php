@@ -5,6 +5,8 @@
            </h2>
        </x-slot>
       <div class="flex flex-col  mx-8">
+    <script src="https://cdn.ckeditor.com/ckeditor5/28.0.0/classic/ckeditor.js"></script>
+
       <form method="POST" action="/post"  enctype="multipart/form-data" class="flex flex-col" >
             @csrf
             <label for="title">제목</label>
@@ -24,10 +26,20 @@
             @error('imageFile')
             <div class="text-red-600 justify-center align-middle">{{$message}}</div>
             @enderror
+
+
+            <h1>Classic editor</h1>
+    <script>
+        ClassicEditor
+            .create( document.querySelector( '#content' ) )
+            .catch( error => {
+                console.error( error );
+            } );
+    </script>
         <button type="submit" class="bg-red-500 ">제출!</button>
       </form>
       </div>
     </body>
-
+    
 </html>
 </x-app-layout>
