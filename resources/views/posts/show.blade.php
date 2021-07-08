@@ -9,8 +9,8 @@
     <div class="">
       <h1 class="font-semibold text-5xl mb-5">{{$posts->title}}</h1>
     <div>
-          {{-- <h3>{{$posts->user_id}}</h3> --}}
-     <h3 class="font-medium text-3xl mb-4 inline-block mr-3">{{$userName}}</h3>
+          {{-- {{$posts->user()->select('name','email')->get()}} --}}
+     <h3 class="font-medium text-3xl mb-4 inline-block mr-3">{{$posts->user->name}}</h3>
       <h3 class="font-medium text-3xl mb-4 inline-block">{{$posts->created_at}}</h3>
     </div>
     <div class="mb-10">

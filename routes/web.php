@@ -2,6 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostsController;
+
+use App\Models\Post;
+use App\Models\User;
+use Illuminate\Http\Request;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,8 +22,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
+Route::get('/dashboard', function (Request $request) {
+
+    $posts = $request->user()->posts;
+
+    return view('dashboard',compact('posts','request'));
 })->middleware(['auth'])->name('dashboard');
 
 
