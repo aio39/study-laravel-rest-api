@@ -12,6 +12,7 @@
           {{-- {{$posts->user()->select('name','email')->get()}} --}}
      <h3 class="font-medium text-3xl mb-4 inline-block mr-3">{{$posts->user->name}}</h3>
       <h3 class="font-medium text-3xl mb-4 inline-block">{{$posts->created_at}}</h3>
+      <h3 class="font-medium text-2xl mb-4 inline-block">  {{$posts->count}} {{ Str::plural('view',$posts->count) }}</h3>
     </div>
     <div class="mb-10">
       <img class="mb-4" src="{{$posts->imagePath()}}" alt="이미지">

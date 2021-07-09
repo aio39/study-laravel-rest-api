@@ -49,6 +49,9 @@ class PostsController extends Controller
     public function show(Request $request, $id){ //injection이 앞에와야함.
         $posts = Post::find($id);
         // $posts = Post::find($id)->join('users','posts.user_id','=','users.id');
+        $posts->count++;
+        $posts->save();
+
         $page = $request->query('page');
         $userName = User::find($posts->user_id)->name;
         return view('posts.show',compact('posts','page','userName'));
